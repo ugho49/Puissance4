@@ -139,7 +139,7 @@ public class GridAdapter extends BaseAdapter {
                         int positionAjouer = column + (li * 7);
                         mThumbs[positionAjouer] = R.drawable.orange;
 
-                        if (!mIA.gagne(mPionsJouee, IA.PLAYER)) {
+                        if (!mIA.playerWin(mPionsJouee, IA.PLAYER)) {
                             if(stillPlay()){
                                 nextPlayer = IA.COMPUTER;
                                 notifyDataSetChanged();
@@ -180,7 +180,7 @@ public class GridAdapter extends BaseAdapter {
                 if (gameEnd()) {
                     showMessage(context.getString(R.string.game_over));
                 } else {
-                    column = mIA.calculCoupAJouer(mPionsJouee);
+                    column = mIA.getColumn(mPionsJouee);
 
                     DecimalFormat df = new DecimalFormat();
                     df.setMaximumFractionDigits(5);
@@ -215,7 +215,7 @@ public class GridAdapter extends BaseAdapter {
                     mThumbs[positionAjouer] = R.drawable.rouge;
                     notifyDataSetChanged();
 
-                    if (!mIA.gagne(mPionsJouee, nextPlayer)) {
+                    if (!mIA.playerWin(mPionsJouee, nextPlayer)) {
                         if(stillPlay()){
                             nextPlayer = IA.PLAYER;
                         }
@@ -235,7 +235,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public boolean gameEnd() {
-        return mIA.gagne(mPionsJouee, IA.COMPUTER) || mIA.gagne(mPionsJouee, IA.PLAYER) || !stillPlay();
+        return mIA.playerWin(mPionsJouee, IA.COMPUTER) || mIA.playerWin(mPionsJouee, IA.PLAYER) || !stillPlay();
     }
 
     private boolean stillPlay() {
