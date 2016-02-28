@@ -118,6 +118,10 @@ public class IA {
             final String[][] saveOfGame = new String[7][6];
             int[] nbPiecesByCol = numberOfPiecesByColumn(game);
 
+            for (int i=0; i<=6; i++) {
+                System.arraycopy(game[i], 0, saveOfGame[i], 0, 6);
+            }
+
             if (nbPiecesByCol[col] < 6) {
                 int position = ((5 - nbPiecesByCol[col]) * 7) + col;
                 int ligne = (int) Math.floor(position / 7);
@@ -186,6 +190,7 @@ public class IA {
                 buildTree(node.getMyNodes().get(i));
             }
         }
+
         if (node.getDepth() % 2 == 0) {
             int min=9999999;
             for (int k=0; k<node.getMyNodes().size(); k++) {
@@ -220,12 +225,15 @@ public class IA {
      * @return the number of pieces by column
      */
     private int[] numberOfPiecesByColumn(final String[][] game) {
+        // Return grid
         final int grid[] = new int[7];
 
+        // Initiate values to 0
         for (int i = 0; i<=6; i++) {
             grid[i] = 0;
         }
 
+        // Calculate the number of the pieces by column
         for (int i=0; i<=6; i++) {
             for (int j=0; j<=5; j++) {
                 if (game[i][j] != null) {
@@ -244,7 +252,10 @@ public class IA {
      * @return value of the game
      */
     private int gameValue(final String[][] game, final String player) {
+        // return value after analyze
         int value = 0;
+
+        // Recover values foreach pieces of the game
         for (int i=0; i<=6; i++) {
             for (int j=0; j<=5; j++) {
                 if (player.equals(game[i][j])) {
@@ -252,6 +263,7 @@ public class IA {
                 }
             }
         }
+
         return value;
     }
 
@@ -263,9 +275,10 @@ public class IA {
      * @return value of the game
      */
     private int winInTwoShots(final String[][] game, final String player) {
+        // return value after analyze
         int value = 0;
 
-        //vérif  par colonne
+        // Recover columns values
         for (int i = 0; i<=6; i++) {
             for (int j = 0; j<=2; j++) {
                 if ((player.equals(game[i][j]) && player.equals(game[i][j + 1]) && game[i][j + 2] == null && game[i][j + 3] == null)
@@ -277,7 +290,7 @@ public class IA {
             }
         }
 
-        //vérif  par ligne
+        // Recover line values
         for (int i = 0; i<=3; i++) {
             for (int j = 0; j<=5; j++) {
                 if ((player.equals(game[i][j]) && player.equals(game[i + 1][j]) && game[i + 2][j] == null && game[i + 3][j] == null)
@@ -289,7 +302,7 @@ public class IA {
             }
         }
 
-        //vérif  par diagonale vers la droite
+        // Recover diagonal values from the right
         for (int i = 0; i<=3; i++) {
             for (int j = 3; j<=5; j++) {
                 if ((player.equals(game[i][j]) && player.equals(game[i + 1][j - 1]) && game[i + 2][j - 2] == null && game[i + 3][j - 3] == null)
@@ -301,7 +314,7 @@ public class IA {
             }
         }
 
-        //vérif  par diagonale vers la gauche
+        // Recover diagonal values from the left
         for (int i = 3; i<=6; i++) {
             for (int j = 3; j<=5; j++) {
                 if ((game[i][j] == null && game[i - 1][j - 1] == null && player.equals(game[i - 2][j - 2]) && player.equals(game[i - 3][j - 3]))
@@ -324,9 +337,10 @@ public class IA {
      * @return value of the game
      */
     private int winInOneShot(final String[][] game, final String player) {
+        // return value after analyze
         int value = 0;
 
-        //vérif  par colonne
+        // Recover columns values
         for (int i = 0; i<=6; i++) {
             for (int j = 0; j<=2; j++) {
                 if ((game[i][j] == null && player.equals(game[i][j + 1]) && player.equals(game[i][j + 2]) && player.equals(game[i][j + 3]))
@@ -339,7 +353,7 @@ public class IA {
             }
         }
 
-        //vérif  par ligne
+        // Recover line values
         for (int i = 0; i<=3; i++) {
             for (int j = 0; j<=5; j++) {
                 if ((game[i][j] == null && player.equals(game[i + 1][j]) && player.equals(game[i + 2][j]) && player.equals(game[i + 3][j]))
@@ -352,7 +366,7 @@ public class IA {
             }
         }
 
-        //vérif  par diagonale vers la droite
+        // Recover diagonal values from the right
         for (int i = 0; i<=3; i++) {
             for (int j = 3; j<=5; j++) {
                 if ((game[i][j] == null && player.equals(game[i + 1][j - 1]) && player.equals(game[i + 2][j - 2]) && player.equals(game[i + 3][j - 3]))
@@ -365,7 +379,7 @@ public class IA {
             }
         }
 
-        //vérif  par diagonale vers la gauche
+        // Recover diagonal values from the left
         for (int i = 3; i<=6; i++) {
             for (int j = 3; j<=5; j++) {
                 if ((game[i][j] == null && player.equals(game[i - 1][j - 1]) && player.equals(game[i - 2][j - 2]) && player.equals(game[i - 3][j - 3]))
