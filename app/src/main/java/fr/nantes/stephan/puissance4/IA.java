@@ -156,21 +156,21 @@ public class IA {
 
         int columnToPlay = 0;
 
-        for (int i=0; i<root.getMyNodes().size(); i++) {
-            buildTree(root.getMyNodes().get(i));
+        for (Node n : root.getMyNodes()) {
+            buildTree(n);
         }
 
         int max = -9999999;
 
         columnToPlay = root.getMyNodes().get(0).getCol();
 
-        for (int i=0; i<root.getMyNodes().size(); i++) {
+        for (Node n : root.getMyNodes()) {
 
-            final int currentEstimation = root.getMyNodes().get(i).getEstimation();
-            final int currentCol = root.getMyNodes().get(i).getCol();
+            final int currentEstimation = n.getEstimation();
+            final int currentCol = n.getCol();
 
             if (currentEstimation > max
-                    || (currentEstimation == max & (currentCol == 2 || currentCol == 3 || currentCol ==4 ))) {
+                    || (currentEstimation == max & (currentCol == 2 || currentCol == 3 || currentCol == 4))) {
 
                 max = currentEstimation;
                 columnToPlay = currentCol;
@@ -185,25 +185,25 @@ public class IA {
      * @param node
      */
     private void buildTree(Node node){
-        for (int i=0; i<node.getMyNodes().size(); i++) {
-            if (node.getMyNodes().get(i).getEstimation() == 0 & node.getMyNodes().get(i).getMyNodes().size() > 0) {
-                buildTree(node.getMyNodes().get(i));
+        for (Node n : node.getMyNodes()) {
+            if (n.getEstimation() == 0 & n.getMyNodes().size() > 0) {
+                buildTree(n);
             }
         }
 
         if (node.getDepth() % 2 == 0) {
-            int min=9999999;
-            for (int k=0; k<node.getMyNodes().size(); k++) {
-                if (node.getMyNodes().get(k).getEstimation() < min) {
-                    min=node.getMyNodes().get(k).getEstimation();
+            int min = 9999999;
+            for (final Node n : node.getMyNodes()) {
+                if (n.getEstimation() < min) {
+                    min = n.getEstimation();
                     node.setEstimation(min);
                 }
             }
         } else {
-            int max=-9999999;
-            for (int k=0; k<node.getMyNodes().size(); k++) {
-                if (node.getMyNodes().get(k).getEstimation()>max) {
-                    max=node.getMyNodes().get(k).getEstimation();
+            int max = -9999999;
+            for (final Node n : node.getMyNodes()) {
+                if (n.getEstimation() > max) {
+                    max = n.getEstimation();
                     node.setEstimation(max);
                 }
             }
