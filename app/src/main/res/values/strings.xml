@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Puissance4</string>
+    <string name="action_settings">Settings</string>
+    <string name="game_over">Partie terminé\nCliquez sur recommencez pour rejouer !!</string>
+    <string name="equal_game">Match nul\nCliquez sur recommencez pour rejouer !!</string>
+    <string name="no_more_space">Plus de place sur cette colonne</string>
+    <string name="you_win">Vous avez gagné :-)</string>
+    <string name="you_lose">Vous avez perdu :-(</string>
+    <string name="snackbar_yes">OUI</string>
+    <string name="snackbar_replay">RECOMMENCER</string>
+</resources>
