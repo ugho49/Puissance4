@@ -254,7 +254,7 @@ public class GridAdapter extends BaseAdapter {
         if (view == null) {
             Toast.makeText(context, m, Toast.LENGTH_SHORT).show();
         } else {
-            Snackbar.make(view, m, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(view, m, Snackbar.LENGTH_SHORT).show();
         }
     }
 }
