@@ -14,7 +14,6 @@ public class Node {
     private Node parent;
     private ArrayList<Node> myNodes = new ArrayList<>();
 
-
     public Node() {
         //empty constructor
     }
@@ -24,7 +23,6 @@ public class Node {
         this.depth = deph;
         this.parent = parent;
     }
-
 
     public int getEstimation() {
         return estimation;

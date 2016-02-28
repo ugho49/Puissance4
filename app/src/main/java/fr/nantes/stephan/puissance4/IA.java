@@ -21,11 +21,15 @@ public class IA {
      * @return the column IA should play
      */
     public int getColumn(final String[][] game) {
+
+        // Define the root node
         Node root = new Node();
         root.setRoot(true);
 
+        // Create a tree with all possible games
         analyzeFuturePosition(root, DEPTH, game, COMPUTER);
 
+        // Return the best column to play by the IA
         return getBestColumn(root);
     }
 
@@ -37,7 +41,7 @@ public class IA {
      */
     public boolean playerWin(final String[][] game, final String player) {
 
-        //vérif  par colonne
+        // Check if player win by column
         for (int i = 0; i<=6; i++) {
             for (int j = 0; j<=2; j++) {
                 if (player.equals(game[i][j])
@@ -49,7 +53,7 @@ public class IA {
             }
         }
 
-        //vérif  par ligne
+        // Check if player win by line
         for (int i = 0; i<=3; i++) {
             for (int j = 0; j<=5; j++) {
                 if (player.equals(game[i][j])
@@ -61,7 +65,7 @@ public class IA {
             }
         }
 
-        //vérif  par diagonale vers la droite
+        // Check if player win by right diagonal
         for (int i = 0; i<=3; i++) {
             for (int j = 3; j<=5; j++) {
                 if (player.equals(game[i][j])
@@ -73,7 +77,7 @@ public class IA {
             }
         }
 
-        //vérif  par diagonale vers la gauche
+        // Check if player win by left diagonal
         for (int i = 3; i<=6; i++) {
             for (int j = 3; j<=5; j++) {
                 if (player.equals(game[i][j])
