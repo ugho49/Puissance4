@@ -8,4 +8,7 @@
     <string name="you_lose">Vous avez perdu :-(</string>
     <string name="snackbar_yes">OUI</string>
     <string name="snackbar_replay">RECOMMENCER</string>
+    <string name="difficulty">Difficulté : </string>
+    <string name="level_change_at_next_game">Le niveau changera à la prochaine partie</string>
+    <string name="do_you_want_replay">Etes-vous sûr de recommencer ?</string>
 </resources>

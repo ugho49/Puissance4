@@ -57,6 +57,24 @@ public class GridAdapter extends BaseAdapter {
         this.gridView = gridView;
     }
 
+    public void setDepthToIA(int depth) {
+        mIA.setDEPTH(depth);
+    }
+
+    public boolean gameHasBegin() {
+        boolean b = false;
+
+        for(int i = 0; i<=6; i++) //vérif  par colonnes
+        {
+            if(this.mNombrePionsParColonnes[i] > 0)
+            {
+                b = true;
+            }
+        }
+
+        return b;
+    }
+
     static class ViewHolder {
         @Bind(R.id.imageViewPion) ImageView image;
 

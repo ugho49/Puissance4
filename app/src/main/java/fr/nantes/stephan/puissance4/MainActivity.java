@@ -13,6 +13,8 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.channguyen.rsv.RangeSliderView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -30,9 +32,12 @@ public class MainActivity extends AppCompatActivity {
     GridView gridView;
     @Bind(R.id.toolbar_progress_bar)
     ProgressBar toolbarProgressBar;
+    @Bind(R.id.rsv)
+    RangeSliderView rsv;
 
     private GridAdapter adapter;
     private final String FIRST_PLAYER = IA.PLAYER;
+    private int DEPTH = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,35 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         initOrResetGame(FIRST_PLAYER);
+
+        rsv.setOnSlideListener(new RangeSliderView.OnSlideListener() {
+            @Override
+            public void onSlide(int index) {
+                switch (index) {
+                    case 0:
+                        DEPTH = 2;
+                        break;
+
+                    case 1:
+                        DEPTH = 4;
+                        break;
+
+                    case 2:
+                        DEPTH = 6;
+                        break;
+
+                    default:
+                        DEPTH = 2;
+                        break;
+                }
+
+                if (adapter.gameHasBegin()) {
+                    Snackbar.make(view, getResources().getString(R.string.level_change_at_next_game), Snackbar.LENGTH_SHORT).show();
+                } else {
+                    adapter.setDepthToIA(DEPTH);
+                }
+            }
+        });
     }
 
     @OnClick(R.id.fab)
@@ -50,15 +84,15 @@ public class MainActivity extends AppCompatActivity {
         if (adapter.gameEnd()) {
             initOrResetGame(FIRST_PLAYER);
         } else {
-            Snackbar snackbar = Snackbar.make(view, "Etes-vous sûr de recommencer ?", Snackbar.LENGTH_LONG)
-                    .setAction("OUI", new View.OnClickListener() {
+            Snackbar snackbar = Snackbar.make(view, getResources().getString(R.string.do_you_want_replay), Snackbar.LENGTH_LONG)
+                    .setAction(getResources().getString(R.string.snackbar_yes), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             initOrResetGame(FIRST_PLAYER);
                         }
                     });
 
-            snackbar.setActionTextColor(Color.parseColor("#2196f3"));
+            snackbar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
             snackbar.setDuration(Snackbar.LENGTH_SHORT);
 
             // Changing action button text color
@@ -85,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.setView(view);
         adapter.setProgressBar(toolbarProgressBar);
         adapter.setGridView(gridView);
+        adapter.setDepthToIA(DEPTH);
         gridView.setAdapter(adapter);
 
         if (first.equals(IA.COMPUTER)) {

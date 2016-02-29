@@ -7,12 +7,16 @@ public class IA {
 
     private final static int[][] POSITIONS_VALUES = {{3,4,5,7,5,4,3},{4,6,8,10,8,6,4},{5,8,11,13,11,8,5},{5,8,11,13,11,8,5},{4,6,8,10,8,6,4},{3,4,5,7,5,4,3}};
     private final static int MAX = 100000;
-    private final static int DEPTH = 4; // MAX 6
+    private int DEPTH; // MAX 6
     public final static String COMPUTER = "C";
     public final static String PLAYER = "P";
 
     public IA() {
         // empty constructor
+    }
+
+    public void setDEPTH(int DEPTH) {
+        this.DEPTH = DEPTH;
     }
 
     /**
