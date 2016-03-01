@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_top"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -34,53 +34,55 @@
 
     <include layout="@layout/content_main" />
 
-    <!--<android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_autorenew_white_24dp" />-->
-
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.michaldrabik.tapbarmenulib.TapBarMenu
-            android:id="@+id/tapBarMenu"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_bottom"
+            android:layout_alignParentBottom="true"
+            android:paddingEnd="16dp"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="24dp"
-            app:tbm_backgroundColor="@color/colorPrimary"
-            app:tbm_menuAnchor="bottom">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary">
 
-            <ImageView
-                android:id="@+id/item_replay"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:src="@drawable/ic_autorenew_white_24dp"
-                tools:visibility="visible" />
-
-            <Space
-                android:layout_width="0dp"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:weightSum="3">
 
-            <ImageView
-                android:id="@+id/item_level"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:src="@drawable/ic_linear_scale_white_24dp" />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:background="@drawable/button_tab"
+                    android:src="@drawable/ic_info_white_24dp"
+                    android:id="@+id/btn_info"
+                    android:layout_weight="1" />
 
-        </com.michaldrabik.tapbarmenulib.TapBarMenu>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:background="@drawable/button_tab"
+                    android:src="@drawable/ic_autorenew_white_24dp"
+                    android:id="@+id/btn_replay"
+                    android:layout_weight="1" />
 
-    </FrameLayout>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:background="@drawable/button_tab"
+                    android:src="@drawable/ic_settings_white_24dp"
+                    android:id="@+id/btn_params"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

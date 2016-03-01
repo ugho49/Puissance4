@@ -11,23 +11,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.channguyen.rsv.RangeSliderView;
-import com.michaldrabik.tapbarmenulib.TapBarMenu;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RangeSliderView.OnSlideListener {
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.tapBarMenu)
-    TapBarMenu tapBarMenu;
     @Bind(R.id.view)
     CoordinatorLayout view;
     @Bind(R.id.gridView)
@@ -38,6 +34,16 @@ public class MainActivity extends AppCompatActivity {
     RangeSliderView rsv;
     @Bind(R.id.difficulty)
     TextView difficulty;
+    @Bind(R.id.toolbar_top)
+    Toolbar toolbarTop;
+    @Bind(R.id.toolbar_bottom)
+    Toolbar toolbarBottom;
+    @Bind(R.id.btn_replay)
+    ImageButton btnReplay;
+    @Bind(R.id.btn_params)
+    ImageButton btnParams;
+    @Bind(R.id.btn_info)
+    ImageButton btnInfo;
 
     private GridAdapter adapter;
     private final String FIRST_PLAYER = IA.PLAYER;
@@ -48,64 +54,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbarTop);
 
         DEPTH = 2;
         difficulty.setText(getResources().getString(R.string.level_easy));
 
         initOrResetGame(FIRST_PLAYER);
 
-        rsv.setOnSlideListener(new RangeSliderView.OnSlideListener() {
-            @Override
-            public void onSlide(int index) {
-                switch (index) {
-                    case 0:
-                        DEPTH = 2;
-                        difficulty.setText(getResources().getString(R.string.level_easy));
-                        break;
-
-                    case 1:
-                        DEPTH = 4;
-                        difficulty.setText(getResources().getString(R.string.level_medium));
-                        break;
-
-                    case 2:
-                        DEPTH = 6;
-                        difficulty.setText(getResources().getString(R.string.level_hard));
-                        break;
-
-                    default:
-                        DEPTH = 2;
-                        difficulty.setText(getResources().getString(R.string.level_easy));
-                        break;
-                }
-
-                if (adapter.gameHasBegin()) {
-                    Snackbar.make(view, getResources().getString(R.string.level_change_at_next_game), Snackbar.LENGTH_SHORT).show();
-                } else {
-                    adapter.setDepthToIA(DEPTH);
-                }
-            }
-        });
+        rsv.setOnSlideListener(this);
     }
 
-    @OnClick(R.id.tapBarMenu)
-    public void onClick() {
-        tapBarMenu.toggle();
-    }
-
-    @OnClick({ R.id.item_replay, R.id.item_level })
-    public void onMenuItemClick(View view) {
-        tapBarMenu.close();
-
-        switch (view.getId()) {
-            case R.id.item_replay:
-                replay();
-                break;
-            case R.id.item_level:
-                Snackbar.make(view, "Futur button", Snackbar.LENGTH_SHORT).show();
-                break;
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     private void replay() {
@@ -133,19 +96,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            Snackbar.make(view, "TODO", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(view, "Action settings", Snackbar.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -156,6 +112,23 @@ public class MainActivity extends AppCompatActivity {
         adapter.placeGamerPiece(position);
         adapter.notifyDataSetChanged();
         gridView.setAdapter(adapter);
+    }
+
+    @OnClick({R.id.btn_replay, R.id.btn_params, R.id.btn_info})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_replay:
+                replay();
+                break;
+
+            case R.id.btn_params:
+                Snackbar.make(view, "Bouton paramètres", Snackbar.LENGTH_SHORT).show();
+                break;
+
+            case R.id.btn_info:
+                Snackbar.make(view, "Bouton info", Snackbar.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     private void initOrResetGame(final String first) {
@@ -173,6 +146,37 @@ public class MainActivity extends AppCompatActivity {
             adapter.placeIAPiece();
             adapter.notifyDataSetChanged();
             gridView.setAdapter(adapter);
+        }
+    }
+
+    @Override
+    public void onSlide(int index) {
+        switch (index) {
+            case 0:
+                DEPTH = 2;
+                difficulty.setText(getResources().getString(R.string.level_easy));
+                break;
+
+            case 1:
+                DEPTH = 4;
+                difficulty.setText(getResources().getString(R.string.level_medium));
+                break;
+
+            case 2:
+                DEPTH = 6;
+                difficulty.setText(getResources().getString(R.string.level_hard));
+                break;
+
+            default:
+                DEPTH = 2;
+                difficulty.setText(getResources().getString(R.string.level_easy));
+                break;
+        }
+
+        if (adapter.gameHasBegin()) {
+            Snackbar.make(view, getResources().getString(R.string.level_change_at_next_game), Snackbar.LENGTH_SHORT).show();
+        } else {
+            adapter.setDepthToIA(DEPTH);
         }
     }
 }
