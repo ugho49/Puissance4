@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1976d2</color>
-    <color name="colorPrimaryDark">#1565c0</color>
-    <color name="colorAccent">#1565c0</color>
+    <color name="colorPrimary">#CE6557</color>
+    <color name="colorPrimaryDark">#c7594b</color>
+    <color name="colorAccent">#CE6557</color>
 
-    <color name="gridColor">#0008ce</color>
+    <!--<color name="colorPrimary">#455B65</color>
+    <color name="colorPrimaryDark">#283135</color>
+    <color name="colorAccent">#627f8c</color>-->
+
+
+    <color name="snackAction">#CE6557</color>
+    <color name="gridColor">#455B65</color>
+    <color name="gridColorDark">#283135</color>
 </resources>

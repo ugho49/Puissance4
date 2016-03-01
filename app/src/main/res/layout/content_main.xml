@@ -12,6 +12,11 @@
     tools:showIn="@layout/activity_main">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/gridColor"/>
+
+    <LinearLayout
         android:background="@color/gridColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -26,28 +31,41 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="10dp"
         android:padding="10dp"
+        android:background="@drawable/shadow_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_marginStart="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/difficulty" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/difficulty" />
+
+            <TextView
+                android:layout_marginStart="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/difficulty" />
+        </LinearLayout>
 
         <com.github.channguyen.rsv.RangeSliderView
             android:id="@+id/rsv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             rsv:filledColor="@color/colorPrimaryDark"
-            rsv:emptyColor="#a8aeb8"
-            rsv:rangeCount="3"
-            rsv:barHeightPercent="0.1" />
+            rsv:emptyColor="@android:color/white"
+            rsv:rangeCount="3"/>
 
     </LinearLayout>
 

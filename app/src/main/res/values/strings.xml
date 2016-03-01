@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Puissance4</string>
+    <string name="app_name">Puissance 4</string>
     <string name="action_settings">Settings</string>
     <string name="game_over">Partie terminé\nCliquez sur recommencez pour rejouer !!</string>
     <string name="equal_game">Match nul\nCliquez sur recommencez pour rejouer !!</string>
@@ -10,5 +10,8 @@
     <string name="snackbar_replay">RECOMMENCER</string>
     <string name="difficulty">Difficulté : </string>
     <string name="level_change_at_next_game">Le niveau changera à la prochaine partie</string>
+    <string name="level_easy">Facile</string>
+    <string name="level_medium">Moyen</string>
+    <string name="level_hard">Difficile</string>
     <string name="do_you_want_replay">Etes-vous sûr de recommencer ?</string>
 </resources>

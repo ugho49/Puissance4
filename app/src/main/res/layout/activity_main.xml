@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/view"
-    android:fitsSystemWindows="true"
     tools:context="fr.nantes.stephan.puissance4.MainActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -26,6 +25,7 @@
                 android:visibility="invisible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:indeterminateTint="@android:color/white"
                 android:layout_gravity="end"/>
 
         </android.support.v7.widget.Toolbar>
@@ -34,12 +34,53 @@
 
     <include layout="@layout/content_main" />
 
-    <android.support.design.widget.FloatingActionButton
+    <!--<android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="bottom|center"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_autorenew_white_24dp" />
+        android:src="@drawable/ic_autorenew_white_24dp" />-->
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.michaldrabik.tapbarmenulib.TapBarMenu
+            android:id="@+id/tapBarMenu"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="24dp"
+            app:tbm_backgroundColor="@color/colorPrimary"
+            app:tbm_menuAnchor="bottom">
+
+            <ImageView
+                android:id="@+id/item_replay"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_autorenew_white_24dp"
+                tools:visibility="visible" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/item_level"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_linear_scale_white_24dp" />
+
+        </com.michaldrabik.tapbarmenulib.TapBarMenu>
+
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

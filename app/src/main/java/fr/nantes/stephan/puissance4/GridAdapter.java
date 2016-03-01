@@ -76,7 +76,8 @@ public class GridAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        @Bind(R.id.imageViewPion) ImageView image;
+        @Bind(R.id.imageViewPion)
+        ImageView image;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -110,11 +111,14 @@ public class GridAdapter extends BaseAdapter {
             view.setTag(holder);
         }
 
-        holder.image.setImageResource(mThumbs[position]);
-
         holder.image.getLayoutParams().height = screenWidth / 7;
         holder.image.getLayoutParams().width = screenWidth / 7;
         holder.image.requestLayout();
+
+        holder.image.setImageResource(mThumbs[position]);
+
+        // Disable HW acceleration for SVGs
+        holder.image.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         return view;
     }
@@ -122,7 +126,7 @@ public class GridAdapter extends BaseAdapter {
     private void cleanGrid() {
 
         for(int i = 0; i<=41; i++) {
-            mThumbs[i] = R.drawable.vide;
+            mThumbs[i] = R.drawable.vide_svg;
         }
 
         for(int i = 0; i<=6; i++) {
@@ -155,7 +159,8 @@ public class GridAdapter extends BaseAdapter {
                         mPionsJouee[column][li] = IA.PLAYER;
 
                         int positionAjouer = column + (li * 7);
-                        mThumbs[positionAjouer] = R.drawable.orange;
+
+                        mThumbs[positionAjouer] = R.drawable.orange_svg;
 
                         if (!mIA.playerWin(mPionsJouee, IA.PLAYER)) {
                             if(stillPlay()){
@@ -230,7 +235,8 @@ public class GridAdapter extends BaseAdapter {
                     mNombrePionsParColonnes[column] = mNombrePionsParColonnes[column] + 1;
                     mPionsJouee[column][ligne] = IA.COMPUTER;
 
-                    mThumbs[positionAjouer] = R.drawable.rouge;
+                    mThumbs[positionAjouer] = R.drawable.rouge_svg;
+
                     notifyDataSetChanged();
 
                     if (!mIA.playerWin(mPionsJouee, nextPlayer)) {

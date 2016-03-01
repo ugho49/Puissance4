@@ -3,17 +3,19 @@ package fr.nantes.stephan.puissance4;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.channguyen.rsv.RangeSliderView;
+import com.michaldrabik.tapbarmenulib.TapBarMenu;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
+    @Bind(R.id.tapBarMenu)
+    TapBarMenu tapBarMenu;
     @Bind(R.id.view)
     CoordinatorLayout view;
     @Bind(R.id.gridView)
@@ -34,10 +36,12 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar toolbarProgressBar;
     @Bind(R.id.rsv)
     RangeSliderView rsv;
+    @Bind(R.id.difficulty)
+    TextView difficulty;
 
     private GridAdapter adapter;
     private final String FIRST_PLAYER = IA.PLAYER;
-    private int DEPTH = 2;
+    private int DEPTH;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+        DEPTH = 2;
+        difficulty.setText(getResources().getString(R.string.level_easy));
 
         initOrResetGame(FIRST_PLAYER);
 
@@ -54,18 +61,22 @@ public class MainActivity extends AppCompatActivity {
                 switch (index) {
                     case 0:
                         DEPTH = 2;
+                        difficulty.setText(getResources().getString(R.string.level_easy));
                         break;
 
                     case 1:
                         DEPTH = 4;
+                        difficulty.setText(getResources().getString(R.string.level_medium));
                         break;
 
                     case 2:
                         DEPTH = 6;
+                        difficulty.setText(getResources().getString(R.string.level_hard));
                         break;
 
                     default:
                         DEPTH = 2;
+                        difficulty.setText(getResources().getString(R.string.level_easy));
                         break;
                 }
 
@@ -78,9 +89,26 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @OnClick(R.id.fab)
+    @OnClick(R.id.tapBarMenu)
     public void onClick() {
+        tapBarMenu.toggle();
+    }
 
+    @OnClick({ R.id.item_replay, R.id.item_level })
+    public void onMenuItemClick(View view) {
+        tapBarMenu.close();
+
+        switch (view.getId()) {
+            case R.id.item_replay:
+                replay();
+                break;
+            case R.id.item_level:
+                Snackbar.make(view, "Futur button", Snackbar.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    private void replay() {
         if (adapter.gameEnd()) {
             initOrResetGame(FIRST_PLAYER);
         } else {
@@ -92,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-            snackbar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
+            snackbar.setActionTextColor(getResources().getColor(R.color.snackAction));
             snackbar.setDuration(Snackbar.LENGTH_SHORT);
 
             // Changing action button text color
@@ -102,6 +130,25 @@ public class MainActivity extends AppCompatActivity {
 
             snackbar.show();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            Snackbar.make(view, "TODO", Snackbar.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @OnItemClick(R.id.gridView)
