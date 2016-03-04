@@ -8,8 +8,6 @@ public class IA {
     private final static int[][] POSITIONS_VALUES = {{3,4,5,7,5,4,3},{4,6,8,10,8,6,4},{5,8,11,13,11,8,5},{5,8,11,13,11,8,5},{4,6,8,10,8,6,4},{3,4,5,7,5,4,3}};
     private final static int MAX = 100000;
     private int DEPTH; // MAX 6
-    public final static String COMPUTER = "C";
-    public final static String PLAYER = "P";
 
     public IA() {
         // empty constructor
@@ -31,7 +29,7 @@ public class IA {
         root.setRoot(true);
 
         // Create a tree with all possible games
-        analyzeFuturePosition(root, DEPTH, game, COMPUTER);
+        analyzeFuturePosition(root, DEPTH, game, GameUtils.COMPUTER);
 
         // Return the best column to play by the IA
         return getBestColumn(root);
@@ -105,13 +103,13 @@ public class IA {
      */
     private void analyzeFuturePosition(Node node, final int depth, final String[][] game, final String player) {
 
-        if (playerWin(game, COMPUTER)) {
+        if (playerWin(game, GameUtils.COMPUTER)) {
             node.setEstimation(MAX + MAX);
             node.setDepth(depth);
             return;
         }
 
-        if (playerWin(game, PLAYER)) {
+        if (playerWin(game, GameUtils.PLAYER)) {
             node.setEstimation(-MAX - MAX);
             node.setDepth(depth);
             return;
@@ -149,8 +147,8 @@ public class IA {
      * @return the value of the estimate game
      */
     private int estimateGame(final String[][] game) {
-        final int computer_estimation = gameValue(game, COMPUTER) + winInOneShot(game, COMPUTER) + winInTwoShots(game, COMPUTER);
-        final int human_estimation = gameValue(game, PLAYER) + winInOneShot(game, PLAYER) + winInTwoShots(game, PLAYER);
+        final int computer_estimation = gameValue(game, GameUtils.COMPUTER) + winInOneShot(game, GameUtils.COMPUTER) + winInTwoShots(game, GameUtils.COMPUTER);
+        final int human_estimation = gameValue(game, GameUtils.PLAYER) + winInOneShot(game, GameUtils.PLAYER) + winInTwoShots(game, GameUtils.PLAYER);
 
         return computer_estimation - human_estimation;
     }
@@ -224,7 +222,7 @@ public class IA {
      * @return the future player
      */
     private String getFuturePlayer(final String player) {
-        return (player.equals(COMPUTER)) ?  PLAYER : COMPUTER;
+        return (player.equals(GameUtils.COMPUTER)) ?  GameUtils.PLAYER : GameUtils.COMPUTER;
     }
 
     /**
