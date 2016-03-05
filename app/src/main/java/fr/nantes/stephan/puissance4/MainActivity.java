@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity
     FloatingActionButton fabPlay;
 
     private GridAdapter adapter;
-    private SettingsDialog dialog;
+    private SettingsDialog settingsDialog;
+    private AnalyticsDialog analyticsDialog;
     private String FIRST_PLAYER;
     private int DEPTH;
     private String COLOR_PIECE_USER;
@@ -59,8 +60,9 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
         setSupportActionBar(toolbarTop);
 
-        // INIT SETTINGS DIALOG
-        dialog = new SettingsDialog(getApplicationContext());
+        // INIT DIALOGS
+        settingsDialog = new SettingsDialog();
+        analyticsDialog = new AnalyticsDialog(getApplicationContext());
 
         // START INIT ELEMENTS
         DEPTH = GameUtils.DEPTH_EASY;
@@ -82,8 +84,8 @@ public class MainActivity extends AppCompatActivity
         if (adapter.gameEnd() || !adapter.gameHasBegin()) {
             initOrResetGame();
         } else {
-            Snackbar snackbar = Snackbar.make(view, getResources().getString(R.string.do_you_want_replay), Snackbar.LENGTH_LONG)
-                    .setAction(getResources().getString(R.string.snackbar_yes), new View.OnClickListener() {
+            Snackbar snackbar = Snackbar.make(view, R.string.do_you_want_replay, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.snackbar_yes, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             initOrResetGame();
@@ -129,11 +131,11 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.btn_params:
-                showNoticeDialog();
+                settingsDialog.show(getSupportFragmentManager(), "settingsDialog");
                 break;
 
             case R.id.btn_info:
-                Snackbar.make(view, "Statistiques : Comming Soon", Snackbar.LENGTH_SHORT).show();
+                analyticsDialog.show(getSupportFragmentManager(), "analyticsDialog");
                 break;
 
             case R.id.fab_play:
@@ -186,13 +188,13 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        dialog.setDifficulty(DEPTH);
+        settingsDialog.setDifficulty(DEPTH);
         switchDepth();
     }
 
     private void switchDepth() {
         if (adapter.gameHasBegin()) {
-            Snackbar.make(dialog.getViewForSnackBar(), getResources().getString(R.string.level_change_at_next_game), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(settingsDialog.getViewForSnackBar(), R.string.level_change_at_next_game, Snackbar.LENGTH_SHORT).show();
         } else {
             adapter.setDepthToIA(DEPTH);
         }
@@ -200,7 +202,7 @@ public class MainActivity extends AppCompatActivity
 
     private void switchPlayer() {
         if (adapter.gameHasBegin()) {
-            Snackbar.make(dialog.getViewForSnackBar(), getResources().getString(R.string.first_user_change_at_next_game), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(settingsDialog.getViewForSnackBar(), R.string.first_user_change_at_next_game, Snackbar.LENGTH_SHORT).show();
         } else {
             initOrResetGame();
         }
@@ -208,22 +210,17 @@ public class MainActivity extends AppCompatActivity
 
     private void switchColor() {
         if (adapter.gameHasBegin()) {
-            Snackbar.make(dialog.getViewForSnackBar(), getResources().getString(R.string.color_piece_user_change_at_next_game), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(settingsDialog.getViewForSnackBar(), R.string.color_piece_user_change_at_next_game, Snackbar.LENGTH_SHORT).show();
         } else {
             adapter.setColor_piece_user(COLOR_PIECE_USER);
         }
     }
 
-    public void showNoticeDialog() {
-        // Create an instance of the dialog fragment and show it
-        dialog.show(getSupportFragmentManager(), "dialog");
-    }
-
     @Override
     public void afterInflateView() {
-        dialog.setPlayer(FIRST_PLAYER);
-        dialog.setColor(COLOR_PIECE_USER);
-        dialog.setDifficulty(DEPTH);
+        settingsDialog.setPlayer(FIRST_PLAYER);
+        settingsDialog.setColor(COLOR_PIECE_USER);
+        settingsDialog.setDifficulty(DEPTH);
     }
 
     @Override

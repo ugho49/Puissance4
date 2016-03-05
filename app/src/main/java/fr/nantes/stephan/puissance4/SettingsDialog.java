@@ -1,7 +1,6 @@
 package fr.nantes.stephan.puissance4;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -39,18 +38,6 @@ public class SettingsDialog extends AppCompatDialogFragment implements RangeSlid
 
     // Use this instance of the interface to deliver action events
     private SettingsDialogListener mListener;
-    // Context
-    private Context context;
-
-    public SettingsDialog(Context context) {
-        this.context = context;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
 
     public interface SettingsDialogListener {
         void onDialogViewClick(View v);
@@ -77,6 +64,12 @@ public class SettingsDialog extends AppCompatDialogFragment implements RangeSlid
         return rootView;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     @Override
     public void onAttach(Activity activity) {
@@ -88,7 +81,7 @@ public class SettingsDialog extends AppCompatDialogFragment implements RangeSlid
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()
-                    + " must implement NoticeDialogListener");
+                    + " must implement SettingsDialogListener");
         }
     }
 

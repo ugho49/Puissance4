@@ -8,6 +8,8 @@
     <color name="colorPrimaryDark">#283135</color>
     <color name="colorAccent">#627f8c</color>-->
 
+    <color name="colorPieceYellow">#FDBF68</color>
+    <color name="colorPieceRed">#CE6557</color>
 
     <color name="snackAction">#CE6557</color>
     <color name="gridColor">#455B65</color>

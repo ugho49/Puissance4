@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Puissance 4</string>
     <string name="action_settings">Paramètres</string>
+    <string name="action_analytics">Statistiques</string>
     <string name="action_ok">Ok</string>
     <string name="game_over">Partie terminé\nCliquez sur recommencez pour rejouer !!</string>
     <string name="equal_game">Match nul\nCliquez sur recommencez pour rejouer !!</string>
@@ -24,4 +25,7 @@
     <string name="piece_red">Rouge</string>
     <string name="piece_yellow">jaune</string>
     <string name="game_already_begin">La partie est déjà commencé</string>
+    <string name="label_equal_game">Matchs nuls :</string>
+    <string name="label_win_game">Matchs gagnés :</string>
+    <string name="label_loose_game">Matchs perdus :</string>
 </resources>
