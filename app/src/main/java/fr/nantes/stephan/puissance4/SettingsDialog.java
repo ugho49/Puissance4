@@ -117,9 +117,9 @@ public class SettingsDialog extends AppCompatDialogFragment implements RangeSlid
 
         if (GameUtils.YELLOW_PIECE.equals(color_piece)) {
             yellowPiece.setChecked(true);
-            redPiece.setChecked(false);
+            //redPiece.setChecked(false);
         } else if (GameUtils.RED_PIECE.equals(color_piece)) {
-            yellowPiece.setChecked(false);
+            //yellowPiece.setChecked(false);
             redPiece.setChecked(true);
         }
     }

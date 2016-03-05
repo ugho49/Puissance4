@@ -81,14 +81,14 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/piece_yellow"
+                android:text="@string/piece_red"
                 android:paddingStart="5dp"
                 android:id="@+id/redPiece" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/piece_red"
+                android:text="@string/piece_yellow"
                 android:paddingStart="5dp"
                 android:id="@+id/yellowPiece" />
 
