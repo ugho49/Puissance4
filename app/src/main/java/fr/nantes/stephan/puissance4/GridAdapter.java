@@ -1,7 +1,9 @@
 package fr.nantes.stephan.puissance4;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -37,11 +39,17 @@ public class GridAdapter extends BaseAdapter {
     private String color_piece_user;
     private CoordinatorLayout view;
 
+    // Shared Preferences
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor preferencesEditor;
+
     public GridAdapter(final Context context, final String nextPlayer, final int screenWidth) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.nextPlayer = nextPlayer;
         this.screenWidth = screenWidth;
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        this.preferencesEditor = this.preferences.edit();
         mIA = new IA();
         cleanGrid();
     }
@@ -178,9 +186,11 @@ public class GridAdapter extends BaseAdapter {
                                 placeIAPiece();
                             }
                             else {
+                                increaseAnalytics(GameUtils.PREF_LOOSE);
                                 showMessage(context.getString(R.string.equal_game));
                             }
                         } else {
+                            increaseAnalytics(GameUtils.PREF_WINS);
                             showMessage(context.getString(R.string.you_win));
                         }
                     } else {
@@ -260,6 +270,7 @@ public class GridAdapter extends BaseAdapter {
                             showMessage(context.getString(R.string.equal_game));
                         }
                     } else {
+                        increaseAnalytics(GameUtils.PREF_LOOSE);
                         showMessage(context.getString(R.string.you_lose));
                     }
                 }
@@ -293,5 +304,10 @@ public class GridAdapter extends BaseAdapter {
         } else {
             Snackbar.make(view, m, Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    private void increaseAnalytics(final String key) {
+        preferencesEditor.putInt(key, preferences.getInt(key, 0) + 1);
+        preferencesEditor.commit();
     }
 }
