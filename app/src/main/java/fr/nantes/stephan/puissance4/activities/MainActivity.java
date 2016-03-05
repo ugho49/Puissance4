@@ -1,4 +1,4 @@
-package fr.nantes.stephan.puissance4;
+package fr.nantes.stephan.puissance4.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,10 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -21,6 +18,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
+import fr.nantes.stephan.puissance4.R;
+import fr.nantes.stephan.puissance4.adapters.GridAdapter;
+import fr.nantes.stephan.puissance4.dialogs.AnalyticsDialog;
+import fr.nantes.stephan.puissance4.dialogs.SettingsDialog;
+import fr.nantes.stephan.puissance4.utils.Constantes;
 
 public class MainActivity extends AppCompatActivity
         implements SettingsDialog.SettingsDialogListener {
@@ -53,8 +55,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -65,19 +65,12 @@ public class MainActivity extends AppCompatActivity
         analyticsDialog = new AnalyticsDialog(getApplicationContext());
 
         // START INIT ELEMENTS
-        DEPTH = GameUtils.DEPTH_EASY;
-        COLOR_PIECE_USER = GameUtils.YELLOW_PIECE;
-        FIRST_PLAYER = GameUtils.PLAYER;
+        DEPTH = Constantes.DEPTH_EASY;
+        COLOR_PIECE_USER = Constantes.YELLOW_PIECE;
+        FIRST_PLAYER = Constantes.PLAYER;
 
         // INIT GAME
         initOrResetGame();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     private void replay() {
@@ -102,18 +95,6 @@ public class MainActivity extends AppCompatActivity
 
             snackbar.show();
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            Snackbar.make(view, "Action settings", Snackbar.LENGTH_SHORT).show();
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @OnItemClick(R.id.gridView)
@@ -159,7 +140,7 @@ public class MainActivity extends AppCompatActivity
         adapter.setColor_piece_user(COLOR_PIECE_USER);
         adapter.setDepthToIA(DEPTH);
 
-        if (FIRST_PLAYER.equals(GameUtils.COMPUTER)) {
+        if (FIRST_PLAYER.equals(Constantes.COMPUTER)) {
             fabPlay.setVisibility(View.VISIBLE);
         } else {
             fabPlay.setVisibility(View.GONE);
@@ -172,19 +153,19 @@ public class MainActivity extends AppCompatActivity
     public void onSlide(int index) {
         switch (index) {
             case 0:
-                DEPTH = GameUtils.DEPTH_EASY;
+                DEPTH = Constantes.DEPTH_EASY;
                 break;
 
             case 1:
-                DEPTH = GameUtils.DEPTH_MEDIUM;
+                DEPTH = Constantes.DEPTH_MEDIUM;
                 break;
 
             case 2:
-                DEPTH = GameUtils.DEPTH_HARD;
+                DEPTH = Constantes.DEPTH_HARD;
                 break;
 
             default:
-                DEPTH = GameUtils.DEPTH_EASY;
+                DEPTH = Constantes.DEPTH_EASY;
                 break;
         }
 
@@ -227,22 +208,22 @@ public class MainActivity extends AppCompatActivity
     public void onDialogViewClick(View v) {
         switch (v.getId()) {
             case R.id.radioButtonPlayerUser:
-                FIRST_PLAYER = GameUtils.PLAYER;
+                FIRST_PLAYER = Constantes.PLAYER;
                 switchPlayer();
                 break;
 
             case R.id.radioButtonPlayerComputer:
-                FIRST_PLAYER = GameUtils.COMPUTER;
+                FIRST_PLAYER = Constantes.COMPUTER;
                 switchPlayer();
                 break;
 
             case R.id.redPiece:
-                COLOR_PIECE_USER = GameUtils.RED_PIECE;
+                COLOR_PIECE_USER = Constantes.RED_PIECE;
                 switchColor();
                 break;
 
             case R.id.yellowPiece:
-                COLOR_PIECE_USER = GameUtils.YELLOW_PIECE;
+                COLOR_PIECE_USER = Constantes.YELLOW_PIECE;
                 switchColor();
                 break;
         }

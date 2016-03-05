@@ -1,4 +1,4 @@
-package fr.nantes.stephan.puissance4;
+package fr.nantes.stephan.puissance4.objects;
 
 import java.util.ArrayList;
 

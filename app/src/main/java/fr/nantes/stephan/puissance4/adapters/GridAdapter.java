@@ -1,4 +1,4 @@
-package fr.nantes.stephan.puissance4;
+package fr.nantes.stephan.puissance4.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,6 +20,9 @@ import java.text.DecimalFormat;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import fr.nantes.stephan.puissance4.R;
+import fr.nantes.stephan.puissance4.objects.IA;
+import fr.nantes.stephan.puissance4.utils.Constantes;
 
 /**
  * Created by ughostephan on 26/02/2016.
@@ -139,7 +142,7 @@ public class GridAdapter extends BaseAdapter {
     private void cleanGrid() {
 
         for(int i = 0; i<=41; i++) {
-            mThumbs[i] = R.drawable.vide_svg;
+            mThumbs[i] = R.drawable.ic_vide;
         }
 
         for(int i = 0; i<=6; i++) {
@@ -169,28 +172,28 @@ public class GridAdapter extends BaseAdapter {
                         b = true;
 
                         mNombrePionsParColonnes[column] = mNombrePionsParColonnes[column] + 1;
-                        mPionsJouee[column][li] = GameUtils.PLAYER;
+                        mPionsJouee[column][li] = Constantes.PLAYER;
 
                         int positionAjouer = column + (li * 7);
 
-                        if (GameUtils.YELLOW_PIECE.equals(color_piece_user)) {
-                            mThumbs[positionAjouer] = R.drawable.orange_svg;
-                        } else if (GameUtils.RED_PIECE.equals(color_piece_user)) {
-                            mThumbs[positionAjouer] = R.drawable.rouge_svg;
+                        if (Constantes.YELLOW_PIECE.equals(color_piece_user)) {
+                            mThumbs[positionAjouer] = R.drawable.ic_orange;
+                        } else if (Constantes.RED_PIECE.equals(color_piece_user)) {
+                            mThumbs[positionAjouer] = R.drawable.ic_rouge;
                         }
 
-                        if (!mIA.playerWin(mPionsJouee, GameUtils.PLAYER)) {
+                        if (!mIA.playerWin(mPionsJouee, Constantes.PLAYER)) {
                             if(stillPlay()){
-                                nextPlayer = GameUtils.COMPUTER;
+                                nextPlayer = Constantes.COMPUTER;
                                 notifyDataSetChanged();
                                 placeIAPiece();
                             }
                             else {
-                                increaseAnalytics(GameUtils.PREF_LOOSE);
+                                increaseAnalytics(Constantes.PREF_LOOSE);
                                 showMessage(context.getString(R.string.equal_game));
                             }
                         } else {
-                            increaseAnalytics(GameUtils.PREF_WINS);
+                            increaseAnalytics(Constantes.PREF_WINS);
                             showMessage(context.getString(R.string.you_win));
                         }
                     } else {
@@ -252,25 +255,25 @@ public class GridAdapter extends BaseAdapter {
                     final int ligne = (int) Math.floor(positionAjouer / 7);
 
                     mNombrePionsParColonnes[column] = mNombrePionsParColonnes[column] + 1;
-                    mPionsJouee[column][ligne] = GameUtils.COMPUTER;
+                    mPionsJouee[column][ligne] = Constantes.COMPUTER;
 
-                    if (GameUtils.YELLOW_PIECE.equals(color_piece_user)) {
-                        mThumbs[positionAjouer] = R.drawable.rouge_svg;
-                    } else if (GameUtils.RED_PIECE.equals(color_piece_user)) {
-                        mThumbs[positionAjouer] = R.drawable.orange_svg;
+                    if (Constantes.YELLOW_PIECE.equals(color_piece_user)) {
+                        mThumbs[positionAjouer] = R.drawable.ic_rouge;
+                    } else if (Constantes.RED_PIECE.equals(color_piece_user)) {
+                        mThumbs[positionAjouer] = R.drawable.ic_orange;
                     }
 
                     notifyDataSetChanged();
 
                     if (!mIA.playerWin(mPionsJouee, nextPlayer)) {
                         if(stillPlay()){
-                            nextPlayer = GameUtils.PLAYER;
+                            nextPlayer = Constantes.PLAYER;
                         }
                         else {
                             showMessage(context.getString(R.string.equal_game));
                         }
                     } else {
-                        increaseAnalytics(GameUtils.PREF_LOOSE);
+                        increaseAnalytics(Constantes.PREF_LOOSE);
                         showMessage(context.getString(R.string.you_lose));
                     }
                 }
@@ -283,7 +286,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public boolean gameEnd() {
-        return mIA.playerWin(mPionsJouee, GameUtils.COMPUTER) || mIA.playerWin(mPionsJouee, GameUtils.PLAYER) || !stillPlay();
+        return mIA.playerWin(mPionsJouee, Constantes.COMPUTER) || mIA.playerWin(mPionsJouee, Constantes.PLAYER) || !stillPlay();
     }
 
     private boolean stillPlay() {

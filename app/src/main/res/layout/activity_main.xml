@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.nantes.stephan.puissance4.MainActivity">
+    tools:context=".activities.MainActivity">
 
     <android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="?attr/actionBarSize"
         android:id="@+id/view"
-        tools:context="fr.nantes.stephan.puissance4.MainActivity">
+        tools:context=".activities.MainActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -51,7 +51,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_bottom"
             android:layout_alignParentBottom="true"
-            android:paddingEnd="16dp"
+            android:paddingRight="16dp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary">
@@ -68,7 +68,7 @@
                     android:layout_gravity="bottom"
                     style="?android:attr/borderlessButtonStyle"
                     android:background="@drawable/button_tab"
-                    android:src="@drawable/ic_info_white_24dp"
+                    android:src="@drawable/ic_equalizer_white_24dp"
                     android:id="@+id/btn_info"
                     android:layout_weight="1" />
 

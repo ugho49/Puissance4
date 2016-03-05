@@ -1,4 +1,6 @@
-package fr.nantes.stephan.puissance4;
+package fr.nantes.stephan.puissance4.objects;
+
+import fr.nantes.stephan.puissance4.utils.Constantes;
 
 /**
  * Created by Ugho on 17/03/14.
@@ -29,7 +31,7 @@ public class IA {
         root.setRoot(true);
 
         // Create a tree with all possible games
-        analyzeFuturePosition(root, DEPTH, game, GameUtils.COMPUTER);
+        analyzeFuturePosition(root, DEPTH, game, Constantes.COMPUTER);
 
         // Return the best column to play by the IA
         return getBestColumn(root);
@@ -103,13 +105,13 @@ public class IA {
      */
     private void analyzeFuturePosition(Node node, final int depth, final String[][] game, final String player) {
 
-        if (playerWin(game, GameUtils.COMPUTER)) {
+        if (playerWin(game, Constantes.COMPUTER)) {
             node.setEstimation(MAX + MAX);
             node.setDepth(depth);
             return;
         }
 
-        if (playerWin(game, GameUtils.PLAYER)) {
+        if (playerWin(game, Constantes.PLAYER)) {
             node.setEstimation(-MAX - MAX);
             node.setDepth(depth);
             return;
@@ -147,8 +149,8 @@ public class IA {
      * @return the value of the estimate game
      */
     private int estimateGame(final String[][] game) {
-        final int computer_estimation = gameValue(game, GameUtils.COMPUTER) + winInOneShot(game, GameUtils.COMPUTER) + winInTwoShots(game, GameUtils.COMPUTER);
-        final int human_estimation = gameValue(game, GameUtils.PLAYER) + winInOneShot(game, GameUtils.PLAYER) + winInTwoShots(game, GameUtils.PLAYER);
+        final int computer_estimation = gameValue(game, Constantes.COMPUTER) + winInOneShot(game, Constantes.COMPUTER) + winInTwoShots(game, Constantes.COMPUTER);
+        final int human_estimation = gameValue(game, Constantes.PLAYER) + winInOneShot(game, Constantes.PLAYER) + winInTwoShots(game, Constantes.PLAYER);
 
         return computer_estimation - human_estimation;
     }
@@ -222,7 +224,7 @@ public class IA {
      * @return the future player
      */
     private String getFuturePlayer(final String player) {
-        return (player.equals(GameUtils.COMPUTER)) ?  GameUtils.PLAYER : GameUtils.COMPUTER;
+        return (player.equals(Constantes.COMPUTER)) ?  Constantes.PLAYER : Constantes.COMPUTER;
     }
 
     /**

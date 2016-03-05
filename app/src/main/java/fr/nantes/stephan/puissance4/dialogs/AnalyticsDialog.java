@@ -1,4 +1,4 @@
-package fr.nantes.stephan.puissance4;
+package fr.nantes.stephan.puissance4.dialogs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import fr.nantes.stephan.puissance4.R;
+import fr.nantes.stephan.puissance4.utils.Constantes;
 
 /**
  * Created by ughostephan on 05/03/2016.
@@ -54,9 +56,9 @@ public class AnalyticsDialog extends AppCompatDialogFragment {
     }
 
     private void fillTexViewBySharedPreferences() {
-        final String wins = String.valueOf(preferences.getInt(GameUtils.PREF_WINS, 0));
-        final String looses = String.valueOf(preferences.getInt(GameUtils.PREF_LOOSE, 0));
-        final String equals = String.valueOf(preferences.getInt(GameUtils.PREF_EQUAL, 0));
+        final String wins = String.valueOf(preferences.getInt(Constantes.PREF_WINS, 0));
+        final String looses = String.valueOf(preferences.getInt(Constantes.PREF_LOOSE, 0));
+        final String equals = String.valueOf(preferences.getInt(Constantes.PREF_EQUAL, 0));
 
         winGames.setText(wins);
         looseGames.setText(looses);

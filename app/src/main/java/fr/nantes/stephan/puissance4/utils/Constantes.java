@@ -1,9 +1,9 @@
-package fr.nantes.stephan.puissance4;
+package fr.nantes.stephan.puissance4.utils;
 
 /**
  * Created by ughostephan on 04/03/2016.
  */
-public class GameUtils {
+public class Constantes {
     public final static String YELLOW_PIECE = "Y_P";
     public final static String RED_PIECE = "R_P";
 

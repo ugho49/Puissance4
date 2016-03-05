@@ -1,4 +1,4 @@
-package fr.nantes.stephan.puissance4;
+package fr.nantes.stephan.puissance4.dialogs;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import com.github.channguyen.rsv.RangeSliderView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fr.nantes.stephan.puissance4.R;
+import fr.nantes.stephan.puissance4.utils.Constantes;
 
 /**
  * Created by ughostephan on 04/03/2016.
@@ -54,7 +56,6 @@ public class SettingsDialog extends AppCompatDialogFragment implements RangeSlid
         View rootView = inflater.inflate(R.layout.dialog_settings, container, false);
         ButterKnife.bind(this, rootView);
 
-        //rsv.setInitialIndex(0);
         rsv.setOnSlideListener(this);
 
         getDialog().setTitle(R.string.action_settings);
@@ -97,21 +98,20 @@ public class SettingsDialog extends AppCompatDialogFragment implements RangeSlid
     }
 
     public void setPlayer(String player) {
-        if (GameUtils.COMPUTER.equals(player)) {
+        if (Constantes.COMPUTER.equals(player)) {
             radioButtonPlayerComputer.setChecked(true);
             radioButtonPlayerUser.setChecked(false);
-        } else if (GameUtils.PLAYER.equals(player)) {
+        } else if (Constantes.PLAYER.equals(player)) {
             radioButtonPlayerComputer.setChecked(false);
             radioButtonPlayerUser.setChecked(true);
         }
     }
 
     public void setColor(String color_piece) {
-
-        if (GameUtils.YELLOW_PIECE.equals(color_piece)) {
+        if (Constantes.YELLOW_PIECE.equals(color_piece)) {
             yellowPiece.setChecked(true);
             //redPiece.setChecked(false);
-        } else if (GameUtils.RED_PIECE.equals(color_piece)) {
+        } else if (Constantes.RED_PIECE.equals(color_piece)) {
             //yellowPiece.setChecked(false);
             redPiece.setChecked(true);
         }
@@ -119,15 +119,15 @@ public class SettingsDialog extends AppCompatDialogFragment implements RangeSlid
 
     public void setDifficulty(int depth) {
         switch (depth) {
-            case GameUtils.DEPTH_EASY:
+            case Constantes.DEPTH_EASY:
                 difficulty.setText(R.string.level_easy);
                 break;
 
-            case GameUtils.DEPTH_MEDIUM:
+            case Constantes.DEPTH_MEDIUM:
                 difficulty.setText(R.string.level_medium);
                 break;
 
-            case GameUtils.DEPTH_HARD:
+            case Constantes.DEPTH_HARD:
                 difficulty.setText(R.string.level_hard);
                 break;
 
