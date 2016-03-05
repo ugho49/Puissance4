@@ -13,4 +13,8 @@ public class GameUtils {
 
     public final static String COMPUTER = "C";
     public final static String PLAYER = "P";
+
+    public final static String PREF_WINS = "win_game";
+    public final static String PREF_LOOSE = "loose_game";
+    public final static String PREF_EQUAL = "equal_game";
 }

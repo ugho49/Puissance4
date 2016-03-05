@@ -54,8 +54,12 @@ public class AnalyticsDialog extends AppCompatDialogFragment {
     }
 
     private void fillTexViewBySharedPreferences() {
-        winGames.setText("1");
-        looseGames.setText("2");
-        equalGames.setText("3");
+        final String wins = String.valueOf(preferences.getInt(GameUtils.PREF_WINS, 0));
+        final String looses = String.valueOf(preferences.getInt(GameUtils.PREF_LOOSE, 0));
+        final String equals = String.valueOf(preferences.getInt(GameUtils.PREF_EQUAL, 0));
+
+        winGames.setText(wins);
+        looseGames.setText(looses);
+        equalGames.setText(equals);
     }
 }
