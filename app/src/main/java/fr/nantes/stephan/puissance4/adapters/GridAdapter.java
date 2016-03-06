@@ -179,10 +179,11 @@ public class GridAdapter extends BaseAdapter {
                             mThumbs[positionAjouer] = R.drawable.ic_rouge;
                         }
 
+                        notifyDataSetChanged();
+
                         if (!mIA.playerWin(mPiecesPlayed, Constantes.PLAYER)) {
                             if(stillPlay()){
                                 nextPlayer = Constantes.COMPUTER;
-                                notifyDataSetChanged();
                                 placeIAPiece();
                             }
                             else {
