@@ -25,7 +25,8 @@ import fr.nantes.stephan.puissance4.dialogs.SettingsDialog;
 import fr.nantes.stephan.puissance4.utils.Constantes;
 
 public class MainActivity extends AppCompatActivity
-        implements SettingsDialog.SettingsDialogListener {
+        implements SettingsDialog.SettingsDialogListener,
+        GridAdapter.GridAdapterListener {
 
     @Bind(R.id.view)
     CoordinatorLayout view;
@@ -99,9 +100,11 @@ public class MainActivity extends AppCompatActivity
 
     @OnItemClick(R.id.gridView)
     public void OnItemClick(int position) {
-        adapter.placeGamerPiece(position);
-        adapter.notifyDataSetChanged();
-        gridView.setAdapter(adapter);
+        if (Constantes.COMPUTER.equals(FIRST_PLAYER) && !adapter.gameHasBegin()) {
+            Snackbar.make(view, R.string.touch_play_for_begin, Snackbar.LENGTH_SHORT).show();
+        } else {
+            adapter.placeGamerPiece(position);
+        }
     }
 
     @OnClick({R.id.btn_replay, R.id.btn_params, R.id.btn_info, R.id.fab_play})
@@ -133,10 +136,7 @@ public class MainActivity extends AppCompatActivity
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        adapter = new GridAdapter(getApplicationContext(), FIRST_PLAYER, metrics.widthPixels);
-        adapter.setView(view);
-        adapter.setProgressBar(toolbarProgressBar);
-        adapter.setGridView(gridView);
+        adapter = new GridAdapter(this, FIRST_PLAYER, metrics.widthPixels);
         adapter.setColor_piece_user(COLOR_PIECE_USER);
         adapter.setDepthToIA(DEPTH);
 
@@ -227,5 +227,30 @@ public class MainActivity extends AppCompatActivity
                 switchColor();
                 break;
         }
+    }
+
+    @Override
+    public void onBeginComputerLoad() {
+        toolbarProgressBar.setVisibility(View.VISIBLE);
+        gridView.setEnabled(false);
+
+        if (Constantes.COMPUTER.equals(FIRST_PLAYER)) {
+            fabPlay.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void onFinishComputerLoad() {
+        toolbarProgressBar.setVisibility(View.INVISIBLE);
+        gridView.setEnabled(true);
+
+        if (Constantes.COMPUTER.equals(FIRST_PLAYER)) {
+            fabPlay.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void showSnackMessage(String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 }

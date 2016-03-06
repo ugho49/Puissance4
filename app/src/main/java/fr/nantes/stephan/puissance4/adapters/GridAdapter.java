@@ -1,20 +1,16 @@
 package fr.nantes.stephan.puissance4.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.text.DecimalFormat;
 
@@ -32,41 +28,47 @@ public class GridAdapter extends BaseAdapter {
     private final Context context;
     private final LayoutInflater inflater;
     private final int screenWidth;
-    private String[][] mPionsJouee = new String[7][6]; // [colonne][ligne]
-    private int[] mNombrePionsParColonnes = new int[7]; // [colonne]
+    private final IA mIA;
+    private String[][] mPiecesPlayed = new String[7][6]; // [column][line]
+    private int[] mNumberOfPiecesByColumn = new int[7];
     private int[] mThumbs = new int[42];
     private String nextPlayer;
-    private ProgressBar progressBar;
-    private GridView gridView;
-    private final IA mIA;
     private String color_piece_user;
-    private CoordinatorLayout view;
 
     // Shared Preferences
     private SharedPreferences preferences;
     private SharedPreferences.Editor preferencesEditor;
 
-    public GridAdapter(final Context context, final String nextPlayer, final int screenWidth) {
-        this.context = context;
+    // Use this instance of the interface to deliver action events
+    private GridAdapterListener mListener;
+
+    public GridAdapter(final Activity activity, final String firstPlayer, final int screenWidth) {
+        this.context = activity.getApplicationContext();
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.nextPlayer = nextPlayer;
+        this.nextPlayer = firstPlayer;
         this.screenWidth = screenWidth;
         this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.preferencesEditor = this.preferences.edit();
         mIA = new IA();
+
+        // Verify that the host activity implements the callback interface
+        try {
+            // Instantiate the GridAdapterListener so we can send events to the host
+            mListener = (GridAdapterListener) activity;
+        } catch (ClassCastException e) {
+            // The activity doesn't implement the interface, throw exception
+            throw new ClassCastException(activity.toString() + " must implement SettingsDialogListener");
+        }
+
         cleanGrid();
     }
 
-    public void setView(CoordinatorLayout view) {
-        this.view = view;
-    }
+    public interface GridAdapterListener {
+        void onBeginComputerLoad();
 
-    public void setProgressBar(ProgressBar progressBar) {
-        this.progressBar = progressBar;
-    }
+        void onFinishComputerLoad();
 
-    public void setGridView(GridView gridView) {
-        this.gridView = gridView;
+        void showSnackMessage(String message);
     }
 
     public void setDepthToIA(int depth) {
@@ -82,7 +84,7 @@ public class GridAdapter extends BaseAdapter {
 
         for(int i = 0; i<=6; i++) //vérif  par colonnes
         {
-            if(this.mNombrePionsParColonnes[i] > 0)
+            if(this.mNumberOfPiecesByColumn[i] > 0)
             {
                 b = true;
             }
@@ -133,46 +135,41 @@ public class GridAdapter extends BaseAdapter {
 
         holder.image.setImageResource(mThumbs[position]);
 
-        // Disable HW acceleration for SVGs
-        holder.image.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
         return view;
     }
     
     private void cleanGrid() {
-
         for(int i = 0; i<=41; i++) {
             mThumbs[i] = R.drawable.ic_vide;
         }
 
         for(int i = 0; i<=6; i++) {
-            mNombrePionsParColonnes[i] = 0;
+            mNumberOfPiecesByColumn[i] = 0;
         }
 
         for(int i = 0; i<=6; i++) {
             for(int z = 0; z<=5; z++) {
-                mPionsJouee[i][z] = null;
+                mPiecesPlayed[i][z] = null;
             }
         }
     }
     
     public void placeGamerPiece(int position) {
-
         if(gameEnd()) {
             showMessage(context.getString(R.string.game_over));
         } else {
             final int column = position % 7;
 
-            if (mNombrePionsParColonnes[column] < 6) {
+            if (mNumberOfPiecesByColumn[column] < 6) {
                 int li = 5;
                 boolean b = false;
 
                 do {
-                    if (mPionsJouee[column][li] == null) {
+                    if (mPiecesPlayed[column][li] == null) {
                         b = true;
 
-                        mNombrePionsParColonnes[column] = mNombrePionsParColonnes[column] + 1;
-                        mPionsJouee[column][li] = Constantes.PLAYER;
+                        mNumberOfPiecesByColumn[column] = mNumberOfPiecesByColumn[column] + 1;
+                        mPiecesPlayed[column][li] = Constantes.PLAYER;
 
                         int positionAjouer = column + (li * 7);
 
@@ -182,7 +179,7 @@ public class GridAdapter extends BaseAdapter {
                             mThumbs[positionAjouer] = R.drawable.ic_rouge;
                         }
 
-                        if (!mIA.playerWin(mPionsJouee, Constantes.PLAYER)) {
+                        if (!mIA.playerWin(mPiecesPlayed, Constantes.PLAYER)) {
                             if(stillPlay()){
                                 nextPlayer = Constantes.COMPUTER;
                                 notifyDataSetChanged();
@@ -204,7 +201,6 @@ public class GridAdapter extends BaseAdapter {
                 showMessage(context.getString(R.string.no_more_space));
             }
         }
-
     }
 
     public void placeIAPiece() {
@@ -214,8 +210,7 @@ public class GridAdapter extends BaseAdapter {
             @Override
             protected void onPreExecute() {
                 startTime = System.nanoTime();
-                progressBar.setVisibility(View.VISIBLE);
-                gridView.setEnabled(false);
+                mListener.onBeginComputerLoad();
             }
 
             @Override
@@ -225,7 +220,7 @@ public class GridAdapter extends BaseAdapter {
                 if (gameEnd()) {
                     showMessage(context.getString(R.string.game_over));
                 } else {
-                    column = mIA.getColumn(mPionsJouee);
+                    column = mIA.getColumn(mPiecesPlayed);
 
                     DecimalFormat df = new DecimalFormat();
                     df.setMaximumFractionDigits(5);
@@ -251,11 +246,11 @@ public class GridAdapter extends BaseAdapter {
             @Override
             protected void onPostExecute(Integer column) {
                 if (column != -1) {
-                    final int positionAjouer = ((5 - mNombrePionsParColonnes[column]) * 7) + column;
+                    final int positionAjouer = ((5 - mNumberOfPiecesByColumn[column]) * 7) + column;
                     final int ligne = (int) Math.floor(positionAjouer / 7);
 
-                    mNombrePionsParColonnes[column] = mNombrePionsParColonnes[column] + 1;
-                    mPionsJouee[column][ligne] = Constantes.COMPUTER;
+                    mNumberOfPiecesByColumn[column] = mNumberOfPiecesByColumn[column] + 1;
+                    mPiecesPlayed[column][ligne] = Constantes.COMPUTER;
 
                     if (Constantes.YELLOW_PIECE.equals(color_piece_user)) {
                         mThumbs[positionAjouer] = R.drawable.ic_rouge;
@@ -265,7 +260,7 @@ public class GridAdapter extends BaseAdapter {
 
                     notifyDataSetChanged();
 
-                    if (!mIA.playerWin(mPionsJouee, nextPlayer)) {
+                    if (!mIA.playerWin(mPiecesPlayed, nextPlayer)) {
                         if(stillPlay()){
                             nextPlayer = Constantes.PLAYER;
                         }
@@ -278,22 +273,21 @@ public class GridAdapter extends BaseAdapter {
                     }
                 }
 
-                progressBar.setVisibility(View.INVISIBLE);
-                gridView.setEnabled(true);
+                mListener.onFinishComputerLoad();
             }
         }.execute();
 
     }
 
     public boolean gameEnd() {
-        return mIA.playerWin(mPionsJouee, Constantes.COMPUTER) || mIA.playerWin(mPionsJouee, Constantes.PLAYER) || !stillPlay();
+        return mIA.playerWin(mPiecesPlayed, Constantes.COMPUTER) || mIA.playerWin(mPiecesPlayed, Constantes.PLAYER) || !stillPlay();
     }
 
     private boolean stillPlay() {
         boolean b = false;
 
         for(int i = 0; i<=6; i++) {
-            if(this.mNombrePionsParColonnes[i] < 6) {
+            if(this.mNumberOfPiecesByColumn[i] < 6) {
                 b = true;
             }
         }
@@ -302,11 +296,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     private void showMessage(final String m) {
-        if (view == null) {
-            Toast.makeText(context, m, Toast.LENGTH_SHORT).show();
-        } else {
-            Snackbar.make(view, m, Snackbar.LENGTH_SHORT).show();
-        }
+        mListener.showSnackMessage(m);
     }
 
     private void increaseAnalytics(final String key) {

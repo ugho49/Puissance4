@@ -77,7 +77,7 @@ public class SettingsDialog extends AppCompatDialogFragment implements RangeSlid
         super.onAttach(activity);
         // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
+            // Instantiate the SettingsDialogListener so we can send events to the host
             mListener = (SettingsDialogListener) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception

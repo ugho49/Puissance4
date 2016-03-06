@@ -18,6 +18,7 @@
     <string name="level_medium">Moyen</string>
     <string name="level_hard">Difficile</string>
     <string name="do_you_want_replay">Etes-vous sûr de recommencer ?</string>
+    <string name="touch_play_for_begin">Appuyer sur le bouton pour commencer la partie</string>
     <string name="who_begin">Qui commence :</string>
     <string name="user_begin">Humain</string>
     <string name="computer_begin">Ordinateur</string>
