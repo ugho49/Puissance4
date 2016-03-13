@@ -1,6 +1,8 @@
 package fr.nantes.stephan.puissance4.activities;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -28,24 +30,25 @@ public class MainActivity extends AppCompatActivity
         implements SettingsDialog.SettingsDialogListener,
         GridAdapter.GridAdapterListener {
 
-    @Bind(R.id.view)
-    CoordinatorLayout view;
-    @Bind(R.id.gridView)
-    GridView gridView;
+
     @Bind(R.id.toolbar_progress_bar)
     ProgressBar toolbarProgressBar;
     @Bind(R.id.toolbar_top)
     Toolbar toolbarTop;
+    @Bind(R.id.gridView)
+    GridView gridView;
+    @Bind(R.id.fab_play)
+    FloatingActionButton fabPlay;
+    @Bind(R.id.view)
+    CoordinatorLayout view;
+    @Bind(R.id.btn_info)
+    ImageButton btnInfo;
+    @Bind(R.id.btn_params)
+    ImageButton btnParams;
     @Bind(R.id.toolbar_bottom)
     Toolbar toolbarBottom;
     @Bind(R.id.btn_replay)
     FloatingActionButton btnReplay;
-    @Bind(R.id.btn_params)
-    ImageButton btnParams;
-    @Bind(R.id.btn_info)
-    ImageButton btnInfo;
-    @Bind(R.id.fab_play)
-    FloatingActionButton fabPlay;
 
     private GridAdapter adapter;
     private SettingsDialog settingsDialog;
@@ -60,6 +63,12 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbarTop);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            btnReplay.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPieceYellow)));
+        } else {
+            btnReplay.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPieceYellow)));
+        }
 
         // INIT DIALOGS
         settingsDialog = new SettingsDialog();

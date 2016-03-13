@@ -88,8 +88,7 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btn_replay"
-            android:backgroundTint="@color/colorPieceYellow"
-            app:backgroundTint="@color/colorPieceYellow"
+            android:layout_marginBottom="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
