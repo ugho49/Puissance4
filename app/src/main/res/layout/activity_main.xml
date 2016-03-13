@@ -51,48 +51,51 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_bottom"
             android:layout_alignParentBottom="true"
-            android:paddingRight="16dp"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary">
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="3">
+                android:layout_height="wrap_content">
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
                     style="?android:attr/borderlessButtonStyle"
                     android:background="@drawable/button_tab"
                     android:src="@drawable/ic_equalizer_white_24dp"
-                    android:id="@+id/btn_info"
-                    android:layout_weight="1" />
+                    android:id="@+id/btn_info" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:background="@drawable/button_tab"
-                    android:src="@drawable/ic_autorenew_white_24dp"
-                    android:id="@+id/btn_replay"
-                    android:layout_weight="1" />
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
                     style="?android:attr/borderlessButtonStyle"
                     android:background="@drawable/button_tab"
                     android:src="@drawable/ic_settings_white_24dp"
-                    android:id="@+id/btn_params"
-                    android:layout_weight="1" />
-            </LinearLayout>
+                    android:id="@+id/btn_params" />
+
+            </RelativeLayout>
         </android.support.v7.widget.Toolbar>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_replay"
+            android:backgroundTint="@color/colorPieceYellow"
+            app:backgroundTint="@color/colorPieceYellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_autorenew_white_24dp" />
+
     </RelativeLayout>
 
 </RelativeLayout>

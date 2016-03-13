@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
     @Bind(R.id.toolbar_bottom)
     Toolbar toolbarBottom;
     @Bind(R.id.btn_replay)
-    ImageButton btnReplay;
+    FloatingActionButton btnReplay;
     @Bind(R.id.btn_params)
     ImageButton btnParams;
     @Bind(R.id.btn_info)
