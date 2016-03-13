@@ -233,6 +233,7 @@ public class MainActivity extends AppCompatActivity
     public void onBeginComputerLoad() {
         toolbarProgressBar.setVisibility(View.VISIBLE);
         gridView.setEnabled(false);
+        btnReplay.setEnabled(false);
 
         if (Constantes.COMPUTER.equals(FIRST_PLAYER)) {
             fabPlay.setEnabled(false);
@@ -243,6 +244,7 @@ public class MainActivity extends AppCompatActivity
     public void onFinishComputerLoad() {
         toolbarProgressBar.setVisibility(View.INVISIBLE);
         gridView.setEnabled(true);
+        btnReplay.setEnabled(true);
 
         if (Constantes.COMPUTER.equals(FIRST_PLAYER)) {
             fabPlay.setEnabled(true);
