@@ -187,7 +187,7 @@ public class GridAdapter extends BaseAdapter {
                                 placeIAPiece();
                             }
                             else {
-                                increaseAnalytics(Constantes.PREF_LOOSE);
+                                increaseAnalytics(Constantes.PREF_EQUAL);
                                 showMessage(context.getString(R.string.equal_game));
                             }
                         } else {
@@ -266,6 +266,7 @@ public class GridAdapter extends BaseAdapter {
                             nextPlayer = Constantes.PLAYER;
                         }
                         else {
+                            increaseAnalytics(Constantes.PREF_EQUAL);
                             showMessage(context.getString(R.string.equal_game));
                         }
                     } else {
