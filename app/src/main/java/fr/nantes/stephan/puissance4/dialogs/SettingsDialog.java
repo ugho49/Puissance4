@@ -12,9 +12,10 @@ import android.widget.TextView;
 
 import com.github.channguyen.rsv.RangeSliderView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import fr.nantes.stephan.puissance4.R;
 import fr.nantes.stephan.puissance4.utils.Constantes;
 
@@ -23,20 +24,22 @@ import fr.nantes.stephan.puissance4.utils.Constantes;
  */
 public class SettingsDialog extends AppCompatDialogFragment implements RangeSliderView.OnSlideListener {
 
-    @Bind(R.id.difficulty)
+    @BindView(R.id.difficulty)
     TextView difficulty;
-    @Bind(R.id.rsv)
+    @BindView(R.id.rsv)
     RangeSliderView rsv;
-    @Bind(R.id.radioButtonPlayerUser)
+    @BindView(R.id.radioButtonPlayerUser)
     RadioButton radioButtonPlayerUser;
-    @Bind(R.id.radioButtonPlayerComputer)
+    @BindView(R.id.radioButtonPlayerComputer)
     RadioButton radioButtonPlayerComputer;
-    @Bind(R.id.redPiece)
+    @BindView(R.id.redPiece)
     RadioButton redPiece;
-    @Bind(R.id.yellowPiece)
+    @BindView(R.id.yellowPiece)
     RadioButton yellowPiece;
-    @Bind(R.id.viewForSnackBar)
+    @BindView(R.id.viewForSnackBar)
     CoordinatorLayout viewForSnackBar;
+
+    private Unbinder unbinder;
 
     // Use this instance of the interface to deliver action events
     private SettingsDialogListener mListener;
@@ -54,7 +57,7 @@ public class SettingsDialog extends AppCompatDialogFragment implements RangeSlid
                              Bundle savedInstanceState) {
         // Inflate the layout to use as dialog or embedded fragment
         View rootView = inflater.inflate(R.layout.dialog_settings, container, false);
-        ButterKnife.bind(this, rootView);
+        unbinder = ButterKnife.bind(this, rootView);
 
         rsv.setOnSlideListener(this);
 
@@ -68,7 +71,7 @@ public class SettingsDialog extends AppCompatDialogFragment implements RangeSlid
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener

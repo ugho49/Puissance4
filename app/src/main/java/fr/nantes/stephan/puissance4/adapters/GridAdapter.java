@@ -14,7 +14,7 @@ import android.widget.ImageView;
 
 import java.text.DecimalFormat;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.nantes.stephan.puissance4.R;
 import fr.nantes.stephan.puissance4.objects.IA;
@@ -94,7 +94,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        @Bind(R.id.imageViewPion)
+        @BindView(R.id.imageViewPion)
         ImageView image;
 
         public ViewHolder(View view) {

@@ -16,7 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
@@ -31,23 +31,23 @@ public class MainActivity extends AppCompatActivity
         GridAdapter.GridAdapterListener {
 
 
-    @Bind(R.id.toolbar_progress_bar)
+    @BindView(R.id.toolbar_progress_bar)
     ProgressBar toolbarProgressBar;
-    @Bind(R.id.toolbar_top)
+    @BindView(R.id.toolbar_top)
     Toolbar toolbarTop;
-    @Bind(R.id.gridView)
+    @BindView(R.id.gridView)
     GridView gridView;
-    @Bind(R.id.fab_play)
+    @BindView(R.id.fab_play)
     FloatingActionButton fabPlay;
-    @Bind(R.id.view)
+    @BindView(R.id.view)
     CoordinatorLayout view;
-    @Bind(R.id.btn_info)
+    @BindView(R.id.btn_info)
     ImageButton btnInfo;
-    @Bind(R.id.btn_params)
+    @BindView(R.id.btn_params)
     ImageButton btnParams;
-    @Bind(R.id.toolbar_bottom)
+    @BindView(R.id.toolbar_bottom)
     Toolbar toolbarBottom;
-    @Bind(R.id.btn_replay)
+    @BindView(R.id.btn_replay)
     FloatingActionButton btnReplay;
 
     private GridAdapter adapter;

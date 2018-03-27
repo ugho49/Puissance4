@@ -1,5 +1,6 @@
 package fr.nantes.stephan.puissance4.dialogs;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,22 +11,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import fr.nantes.stephan.puissance4.R;
 import fr.nantes.stephan.puissance4.utils.Constantes;
 
 /**
  * Created by ughostephan on 05/03/2016.
  */
+@SuppressLint("ValidFragment")
 public class AnalyticsDialog extends AppCompatDialogFragment {
 
-    @Bind(R.id.winGames)
+    @BindView(R.id.winGames)
     TextView winGames;
-    @Bind(R.id.looseGames)
+    @BindView(R.id.looseGames)
     TextView looseGames;
-    @Bind(R.id.equalGames)
+    @BindView(R.id.equalGames)
     TextView equalGames;
+
+    private Unbinder unbinder;
 
     private Context context;
     private SharedPreferences preferences;
@@ -40,7 +45,7 @@ public class AnalyticsDialog extends AppCompatDialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout to use as dialog or embedded fragment
         View rootView = inflater.inflate(R.layout.dialog_analytics, container, false);
-        ButterKnife.bind(this, rootView);
+        unbinder = ButterKnife.bind(this, rootView);
 
         getDialog().setTitle(R.string.action_analytics);
 
@@ -52,7 +57,7 @@ public class AnalyticsDialog extends AppCompatDialogFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     private void fillTexViewBySharedPreferences() {
